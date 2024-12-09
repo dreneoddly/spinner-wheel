@@ -240,13 +240,7 @@ const WheelSpinner = ({ backgroundImage }: WheelSpinnerProps) => {
       style={{ backgroundImage: `url(${backgroundImage || '/placeholder.svg?height=1080&width=1920'})` }}
     >
       <div className="w-full flex justify-between items-start">
-        <Image
-          src="/logomb.svg"
-          alt="MB Logo"
-          width={100}
-          height={50}
-          className="mb-4"
-        />
+        <img src="/logomb.svg" width={80} height={80} alt="" />
         <div className="flex flex-col items-center justify-center p-2">
           <h1 className="text-xl sm:text-4xl md:text-5xl text-center font-paytone text-white mb-3 animate-pulse">
             Spin the Wheel
@@ -273,7 +267,7 @@ const WheelSpinner = ({ backgroundImage }: WheelSpinnerProps) => {
               />
               <foreignObject x="55" y="10" width="25" height="25" transform="rotate(-15 60 38)">
                 <div className="w-full h-full relative">
-                  <Image
+                  <img
                     src={sections[index].image}
                     alt={""}
                     width={80}
