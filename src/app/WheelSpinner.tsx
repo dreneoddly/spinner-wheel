@@ -5,7 +5,7 @@ import Image from 'next/image'
 import dynamic from 'next/dynamic'
 import { WinnerPopup } from './WinnerPopup'
 import { Pacifico } from 'next/font/google'
-import { initialPrizeLimits, resetPrizeCounts, updatePrizeLimit, PrizeLimit } from '@/app/PrizeLimit'
+import { initialPrizeLimits, resetPrizeCounts, PrizeLimit } from '@/app/PrizeLimit'
 
 const pacifico = Pacifico({
   weight: '400',
@@ -38,10 +38,10 @@ const WheelSpinner = ({ backgroundImage }: WheelSpinnerProps) => {
   const spinningAudioRef = useRef<HTMLAudioElement>(null);
 
   const sections: SectionData[] = [
-    { name: 'Crocs Jibbitz', image: '/prize 1.svg' },
-    { name: 'Pop Mart', image: '/prize 2.svg' },
+    { name: '5 Pieces of Jibbitzs', image: '/prize 1.svg' },
+    { name: 'Hacipupu', image: '/prize 2.svg' },
     { name: 'Socks', image: '/prize 3.svg' },
-    { name: 'Cup', image: '/prize 4.svg' },
+    { name: 'Bottle', image: '/prize 4.svg' },
     { name: 'Tote Bag', image: '/prize 5.svg' },
     { name: '10% OFF', image: '/10p.svg' }
   ]
@@ -59,11 +59,6 @@ const WheelSpinner = ({ backgroundImage }: WheelSpinnerProps) => {
   }, [])
 
   // Function to modify a prize's limit
-  const modifyPrizeLimit = (prizeName: string, newLimit: number | 'unlimited') => {
-    const updatedLimits = updatePrizeLimit(prizeLimits, prizeName, newLimit);
-    setPrizeLimits(updatedLimits);
-    localStorage.setItem('prizeLimits', JSON.stringify(updatedLimits));
-  };
   useEffect(() => {
     const loadPrizeLimits = () => {
       const storedLimits = localStorage.getItem('prizeLimits')

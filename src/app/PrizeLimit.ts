@@ -5,12 +5,12 @@ export type PrizeLimit = {
 };
 
 export const initialPrizeLimits: PrizeLimit[] = [
-  { name: "Crocs Jibbitz", limit: 1, count: 0 },
-  { name: "Pop Mart", limit: 1, count: 0 },
-  { name: "Socks", limit: 1, count: 0 },
-  { name: "Cup", limit: 1, count: 0 },
-  { name: "Tote Bag", limit: "unlimited", count: 0 },
-  { name: "10% OFF", limit: "unlimited", count: 0 },
+  { name: "5 Pieces of Jibbitzs", limit: 12, count: 0 },
+  { name: "Hacipupu", limit: 2, count: 0 },
+  { name: "Socks", limit: 20, count: 0 },
+  { name: "Bottle", limit: 4, count: 0 },
+  { name: "Tote Bag", limit: 8, count: 0 },
+  { name: "10% OFF", limit: 6, count: 0 },
 ];
 
 export function resetPrizeCounts(prizeLimits: PrizeLimit[]): PrizeLimit[] {
