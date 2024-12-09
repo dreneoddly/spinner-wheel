@@ -1,7 +1,6 @@
 "use client"
 
 import React, { useState, useRef, useEffect } from 'react'
-import Image from 'next/image'
 import dynamic from 'next/dynamic'
 import { WinnerPopup } from './WinnerPopup'
 import { Pacifico } from 'next/font/google'
