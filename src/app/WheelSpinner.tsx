@@ -22,6 +22,24 @@ interface WheelSpinnerProps {
   backgroundImage?: string
 }
 
+function weightedRandomChoice(prizes: PrizeLimit[]): PrizeLimit {
+  const totalWeight = prizes.reduce((sum, prize) => {
+    return sum + (typeof prize.limit === 'number' ? prize.limit : 100); // Use 100 for 'unlimited'
+  }, 0);
+
+  let random = Math.random() * totalWeight;
+  
+  for (const prize of prizes) {
+    const weight = typeof prize.limit === 'number' ? prize.limit : 100; // Use 100 for 'unlimited'
+    if (random < weight) {
+      return prize;
+    }
+    random -= weight;
+  }
+  
+  return prizes[prizes.length - 1]; // Fallback to last prize (should never happen)
+}
+
 
 const WheelSpinner = ({ backgroundImage }: WheelSpinnerProps) => {
   const [spinning, setSpinning] = useState(false)
@@ -193,8 +211,8 @@ const WheelSpinner = ({ backgroundImage }: WheelSpinnerProps) => {
       return
     }
 
-    // Randomly select an available prize
-    const winningPrize = availablePrizes[Math.floor(Math.random() * availablePrizes.length)]
+    // Use weighted random choice to select a prize
+    const winningPrize = weightedRandomChoice(availablePrizes)
     const winningIndex = sections.findIndex(section => section.name === winningPrize.name)
 
     // Calculate the rotation to land on the winning prize
@@ -342,3 +360,4 @@ const WheelSpinner = ({ backgroundImage }: WheelSpinnerProps) => {
 }
 
 export default WheelSpinner
+
