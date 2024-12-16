@@ -207,9 +207,8 @@ const WheelSpinner = ({ backgroundImage }: WheelSpinnerProps) => {
     let winningPrize: PrizeLimit;
     let winningIndex: number;
 
-    if (availablePrizes.length === 0 || (availablePrizes.length === 1 && availablePrizes[0].name !== 'Socks')) {
-      // All prizes have reached their limit or only non-Socks prizes are available
-      // Force it to land on Socks
+    if (availablePrizes.length === 0 || (availablePrizes.length === 1 && availablePrizes[0].name === 'Socks')) {
+      // All prizes have been claimed or only Socks are left, so we always land on Socks
       winningPrize = prizeLimits.find(prize => prize.name === 'Socks')!
       winningIndex = sections.findIndex(section => section.name === 'Socks')
     } else {
@@ -363,4 +362,3 @@ const WheelSpinner = ({ backgroundImage }: WheelSpinnerProps) => {
 }
 
 export default WheelSpinner
-
