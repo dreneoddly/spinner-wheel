@@ -204,16 +204,19 @@ const WheelSpinner = ({ backgroundImage }: WheelSpinnerProps) => {
       prize.limit === 'unlimited' || prize.count < prize.limit
     )
 
-    if (availablePrizes.length === 0) {
-      // All prizes have reached their limit
-      setSpinning(false)
-      alert("All prizes have been claimed for today. Please try again tomorrow!")
-      return
-    }
+    let winningPrize: PrizeLimit;
+    let winningIndex: number;
 
-    // Use weighted random choice to select a prize
-    const winningPrize = weightedRandomChoice(availablePrizes)
-    const winningIndex = sections.findIndex(section => section.name === winningPrize.name)
+    if (availablePrizes.length === 0 || (availablePrizes.length === 1 && availablePrizes[0].name !== 'Socks')) {
+      // All prizes have reached their limit or only non-Socks prizes are available
+      // Force it to land on Socks
+      winningPrize = prizeLimits.find(prize => prize.name === 'Socks')!
+      winningIndex = sections.findIndex(section => section.name === 'Socks')
+    } else {
+      // Use weighted random choice to select a prize
+      winningPrize = weightedRandomChoice(availablePrizes)
+      winningIndex = sections.findIndex(section => section.name === winningPrize.name)
+    }
 
     // Calculate the rotation to land on the winning prize
     totalRotation += (5 - winningIndex) * 60 + Math.floor(Math.random() * 60)
