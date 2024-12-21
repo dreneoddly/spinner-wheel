@@ -22,15 +22,22 @@ interface WheelSpinnerProps {
   backgroundImage?: string
 }
 
-function weightedRandomChoice(prizes: PrizeLimit[]): PrizeLimit {
+function weightedRandomChoice(prizes: PrizeLimit[], spinCount: number): PrizeLimit {
   const totalWeight = prizes.reduce((sum, prize) => {
-    return sum + (typeof prize.limit === 'number' ? prize.limit : 100); // Use 100 for 'unlimited'
+    let weight = typeof prize.limit === 'number' ? prize.limit : 100;
+    if (prize.name === 'Hacipupu' && spinCount >= 10 && spinCount <= 30) {
+      weight *= 3; // Triple the weight for Hacipupu between 10th and 30th spin
+    }
+    return sum + weight;
   }, 0);
 
   let random = Math.random() * totalWeight;
   
   for (const prize of prizes) {
-    const weight = typeof prize.limit === 'number' ? prize.limit : 100; // Use 100 for 'unlimited'
+    let weight = typeof prize.limit === 'number' ? prize.limit : 100;
+    if (prize.name === 'Hacipupu' && spinCount >= 10 && spinCount <= 30) {
+      weight *= 3; // Triple the weight for Hacipupu between 10th and 30th spin
+    }
     if (random < weight) {
       return prize;
     }
@@ -50,6 +57,7 @@ const WheelSpinner = ({ backgroundImage }: WheelSpinnerProps) => {
   const [currentDate, setCurrentDate] = useState<string>('')
   const [windowSize, setWindowSize] = useState({ width: 0, height: 0 })
   const [prizeLimits, setPrizeLimits] = useState<PrizeLimit[]>(initialPrizeLimits)
+  const [spinCount, setSpinCount] = useState(0); // Added spin count state
   const wheelRef = useRef<SVGSVGElement>(null)
   const audioRef = useRef<HTMLAudioElement>(null)
   const spinningAudioRef = useRef<HTMLAudioElement>(null);
@@ -195,6 +203,7 @@ const WheelSpinner = ({ backgroundImage }: WheelSpinnerProps) => {
     setSpinning(true)
     setWinner(null)
     setShowPopup(false)
+    setSpinCount(prevCount => prevCount + 1) // Increment spin count
 
     const spinDuration = 5800 + Math.random() * 2000
     let totalRotation = 360 * 10
@@ -213,7 +222,7 @@ const WheelSpinner = ({ backgroundImage }: WheelSpinnerProps) => {
       winningIndex = sections.findIndex(section => section.name === 'Socks')
     } else {
       // Use weighted random choice to select a prize
-      winningPrize = weightedRandomChoice(availablePrizes)
+      winningPrize = weightedRandomChoice(availablePrizes, spinCount)
       winningIndex = sections.findIndex(section => section.name === winningPrize.name)
     }
 
@@ -362,3 +371,4 @@ const WheelSpinner = ({ backgroundImage }: WheelSpinnerProps) => {
 }
 
 export default WheelSpinner
+
